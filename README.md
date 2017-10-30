@@ -3,7 +3,7 @@
 
 Signed Distance Filed is a techniques that allow to render smooth text on big font size.
 This repo rapresen a implentation of his technique in Unity.
-The technique is based on this Valve paper 
+The technique is based on this Valve paper http://www.valvesoftware.com/publications/2007/SIGGRAPH2007_AlphaTestedMagnification.pdf
 
 <h2>SDF atlas</h2>
 Using Hiero we can create an atlas with modified character starting from  a .ttf file
