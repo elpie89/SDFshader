@@ -19,8 +19,8 @@ public class FontImporter : MonoBehaviour
         {
             string targetPath = Path.GetDirectoryName(AssetDatabase.GetAssetPath(fntInfo));
             Font newFont = new Font(fntInfo.name);
-            Material newMaterial = new Material(Shader.Find("GUI/Text Shader"));
-            AssetDatabase.CreateAsset(newMaterial, Path.Combine(targetPath, "Font Material.mat"));
+            Material newMaterial = new Material(Shader.Find("GUI/SDF Text Shader"));
+            AssetDatabase.CreateAsset(newMaterial, Path.Combine(targetPath, "SDF Font Material.mat"));
             AssetDatabase.CreateAsset(newFont,Path.Combine(targetPath, newFont.name + ".fontsettings"));
             newFont.material = newMaterial;
 

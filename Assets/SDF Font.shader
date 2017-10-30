@@ -1,6 +1,6 @@
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "GUI/SDFText Shader" {
+Shader "GUI/SDF Text Shader" {
     Properties {
         _MainTex ("Font Texture", 2D) = "white" {}
         _Color ("Text Color", Color) = (1,1,1,1)
@@ -58,7 +58,7 @@ Shader "GUI/SDFText Shader" {
             {
 
 				float distance = tex2D(_MainTex, i.texcoord).a;
-				float alpha = smoothstep(0.45 - smoothing, 0.5 + smoothing, distance);
+				float alpha = smoothstep(0.475 - smoothing, 0.5 + smoothing, distance);
 				fixed4 col = fixed4(i.color.rgb, i.color.a *alpha);
 
                 return col;
