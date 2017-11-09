@@ -11,35 +11,57 @@ public class FontImporter : MonoBehaviour
     private static int scaleW;
     private static int scaleH;
     private static int charCount;
-    [MenuItem("Assets/FontImporter/CreateFont")]
+    
+    [MenuItem("Assets/BitmapFontGeneraor")]
     public static void CreateFont()
     {
         TextAsset fntInfo = Selection.activeObject as TextAsset;
         if (fntInfo != null)
         {
             string targetPath = Path.GetDirectoryName(AssetDatabase.GetAssetPath(fntInfo));
-            Font newFont = new Font(fntInfo.name);
-            Material newMaterial = new Material(Shader.Find("GUI/SDF Text Shader"));
-            AssetDatabase.CreateAsset(newMaterial, Path.Combine(targetPath, "SDF Font Material.mat"));
-            AssetDatabase.CreateAsset(newFont,Path.Combine(targetPath, newFont.name + ".fontsettings"));
+            string fontPath = Path.Combine(targetPath, fntInfo.name + ".fontsettings");
+            string bitMapPath = Path.Combine(targetPath, fntInfo.name + ".png");
+
+            Texture2D texture = (Texture2D)AssetDatabase.LoadAssetAtPath(bitMapPath,typeof(Texture2D));
+
+            //font creation
+            Font newFont = new Font();            
+            AssetDatabase.CreateAsset(newFont, fontPath);
+            AssetDatabase.WriteImportSettingsIfDirty(fontPath);
+            AssetDatabase.ImportAsset(fontPath);
+
+            //material creation
+            Material newMaterial = AssetDatabase.LoadAssetAtPath(fontPath, typeof(Material)) as Material;
+            newMaterial = new Material(Shader.Find("GUI/Text Shader"));
+            newMaterial.name = "Font Material";
+            newMaterial.mainTexture = texture;
+
+            //add material to font to keep the font alive
+            AssetDatabase.AddObjectToAsset(newMaterial, fontPath);
+            AssetDatabase.ImportAsset(fontPath);          
+           
+            
             newFont.material = newMaterial;
 
             string[] lines = fntInfo.text.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
+            newFont.characterInfo = new CharacterInfo[3];
             ParseInfoLine(lines[0], newFont);
             ParseCommonLine(lines[1], newFont);
             ParsePageLine(lines[2], newFont);
-            ParseCharsNumberLine(lines[3],newFont);
+            ParseCharsNumberLine(lines[3], newFont);
 
             CharacterInfo[] newCharactersInfo = new CharacterInfo[charCount];
 
-            for (int i = 4; i < charCount+4; i++)
+            for (int i = 4; i < charCount + 4; i++)
             {
-                ParseCharSpecsLine(lines[i], ref newCharactersInfo[i-4]);
+                ParseCharSpecsLine(lines[i], ref newCharactersInfo[i - 4]);
             }
-
             newFont.characterInfo = newCharactersInfo;
+            
+
             AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 
