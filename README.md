@@ -26,7 +26,7 @@ Using this information we are available to scale on every size the font without 
 
 <h3>Result</h3>
 
-![Alt text](/ReadMeImages/testResult.jpg?raw=true "Result comparision")
+![Alt text](/ReadMeImages/result.jpg?raw=true "Result comparision")
 
 1-classic font vectorial file.
 2-SDF bitmap font
